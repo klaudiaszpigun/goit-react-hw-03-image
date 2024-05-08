@@ -1,9 +1,9 @@
-import styles from '../index.css';
+import '../index.css';
 
 export const Loader = () => {
   return (
     <>
-      <span className={styles.loader}></span>;
+      <span className="loader"></span>;
     </>
   );
 };
