@@ -1,30 +1,30 @@
 import { useEffect } from 'react';
 
-export const Modal = ({ imageUrl, onClose }) => {
+export const Modal = ({ onClick, openModal }) => {
+  //Close modal on Escape
   useEffect(() => {
     const handleKeyDown = e => {
-      if (e.code === 'Escape') {
-        onClose();
+      if (e.keyCode === 27) {
+        onClick();
       }
     };
-
-    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [onClick]);
 
-  const handleClick = e => {
+  //Close modal if clicked out of the image
+  const handleCloseModal = e => {
     if (e.target === e.currentTarget) {
-      onClose();
+      onClick();
     }
   };
-
   return (
-    <div className="overlay" onClick={handleClick}>
-      <div className="modal">
-        <img src={imageUrl} alt="" />
+    <div onClick={handleCloseModal}>
+      <div>
+        <img src={openModal} alt="" width="800" height="600" />
       </div>
     </div>
   );

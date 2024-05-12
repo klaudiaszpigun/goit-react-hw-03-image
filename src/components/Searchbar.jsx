@@ -1,28 +1,26 @@
 import { useState } from 'react';
+export const Searchbar = ({ handleValue }) => {
+  const [searchedValue, setSearchedValue] = useState('');
 
-export const Searchbar = ({ onSubmit }) => {
-  const [query, setQuery] = useState('');
-
-  const handleSubmit = e => {
+  const handleSearchedValue = e => {
     e.preventDefault();
-    onSubmit(query.trim());
-    setQuery('');
+    handleValue(searchedValue);
+    setSearchedValue('');
   };
 
   return (
-    <header className="searchbar">
-      <form className="form" onSubmit={handleSubmit}>
-        <button type="submit" className="button">
-          <span className="button-label">Search</span>
+    <header>
+      <form onSubmit={handleSearchedValue}>
+        <button type="submit">
+          <span>Search</span>
         </button>
         <input
-          className="input"
+          value={searchedValue}
           type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
+          onChange={e => setSearchedValue(e.target.value)}
         />
       </form>
     </header>
