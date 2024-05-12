@@ -1,21 +1,24 @@
 import { useEffect } from 'react';
 
 export const Modal = ({ onClick, openModal }) => {
-  //Close modal on Escape
+  // przy zmianie wartości stateu openModal
   useEffect(() => {
+    // jeśli kod zdarzenia ma wartość 27 => escape to zamknij modal
     const handleKeyDown = e => {
       if (e.keyCode === 27) {
         onClick();
       }
     };
+    // przy kliknięciu na escape wywołaj callback
     document.addEventListener('keydown', handleKeyDown);
 
+    // czyszczenie useEffecta
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClick]);
 
-  //Close modal if clicked out of the image
+  // zamknięcie modalu jeśli kliknie się poza zdjęcie
   const handleCloseModal = e => {
     if (e.target === e.currentTarget) {
       onClick();

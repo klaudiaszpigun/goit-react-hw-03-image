@@ -8,7 +8,7 @@ import { Modal } from './Modal';
 import { Searchbar } from './Searchbar';
 
 export const App = () => {
-  //State
+  //
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchedImages, setSearchedImages] = useState('');
@@ -18,6 +18,7 @@ export const App = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modalSrc, setModalSrc] = useState('');
 
+  // pobieranie danych z API
   const fetchGallery = async (q, page) => {
     const baseURL = `https://pixabay.com/api/?q=${q}&page=${page}&key=42474865-55c278fe0045234625bd75cd9&image_type=photo&orientation=horizontal&per_page=12`;
     try {
@@ -28,6 +29,7 @@ export const App = () => {
     }
   };
 
+  // przy zmienieniu strony lub zmienieniu frazy wyszukiwania wykonuje się useEffect który wywołuje pobranie danych z API z podanymi w stateach wartościacch
   useEffect(() => {
     if (!searchedImages) return;
 
@@ -36,15 +38,22 @@ export const App = () => {
       setIsLoading(true);
       await fetchGallery(searchedImages, currentPage)
         .then(results => {
-          //if less than 12 results, turn off the button
+          // jeśli wyników jest mniej niż 12, ustaw stateowi images tablicę obiektów z danymi  i zdezaktywuj przycisk load more
           if (results.hits.length < 12) {
             setImages(results.hits);
             setDisabledButton(true);
-          } else if (currentPage === 1) {
+          }
+          // jeśli wyników jest więcej niż 12 i state currentPage to 1
+          else if (currentPage === 1) {
+            // aktywuj przycisk load more
             setDisabledButton(false);
+            // ustaw stateowi images tablicę obiektów z danymi
             setImages(results.hits);
+            // ustaw stateowi totalHits liczbę zdjęć
             setTotalHits(() => results.totalHits);
-          } else {
+          }
+          // jeśli wyników jest więcej niż 12 i state currentPage nie jest 1 to po prostu wyświetlamy wyniki
+          else {
             setImages(results.hits);
           }
         })
@@ -60,20 +69,22 @@ export const App = () => {
     fetchSearchedValue();
   }, [searchedImages, currentPage]);
 
-  //load more images
+  // ładuje więcej wyników => paginacja
   const loadMore = () => {
+    // ustawia dla currentPage wartość większą o 1 od poprzedniej
     setCurrentPage(currentPage => currentPage + 1);
+    // odejmuje od stateu wszystkich zdjęc 12
     setTotalHits(totalHits => totalHits - 12);
   };
 
-  //handle data from searchbar
+  // przy zmianie inputu wartość inputu zapisuje się w state, a przy przesłaniu formularza pobiera wartość ze stateu i używa ją jako parametru przy wywołaniu funkcji handleValue
   const handleValue = data => {
     setSearchedImages(data);
     setCurrentPage(1);
     setTotalHits(0);
   };
 
-  //Modal- handle data from image and change the state to open/close modal
+  // przy kliknięciu na zdjęcie w komponencie ImageGalleryItem
   const handleImageClick = image => {
     setOpenModal(true);
     setModalSrc(image.largeImageURL);
