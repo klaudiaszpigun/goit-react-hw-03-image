@@ -1,12 +1,10 @@
-import '../index.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
-export const ImageGallery = ({ images }) => {
+
+export const ImageGallery = ({ images, onImageClick }) => {
   return (
-    <ul>
+    <ul className="gallery">
       {images.map(image => (
-        <div key={image.id}>
-          <ImageGalleryItem image={image} />
-        </div>
+        <ImageGalleryItem key={image.id} image={image} onClick={onImageClick} />
       ))}
     </ul>
   );

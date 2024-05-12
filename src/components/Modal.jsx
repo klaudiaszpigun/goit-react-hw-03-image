@@ -1,19 +1,31 @@
-import { basicLightbox } from 'basiclightbox';
 import { useEffect } from 'react';
-import '../index.css';
-export const Modal = ({ imageUrl }) => {
+
+export const Modal = ({ imageUrl, onClose }) => {
   useEffect(() => {
-    const instance = basicLightbox.create(`
-      <img src='${imageUrl}'/>
-    `);
-    instance.show();
-
-    // Cleanup function to close the modal when the component unmounts
-    return () => {
-      instance.close();
+    const handleKeyDown = e => {
+      if (e.code === 'Escape') {
+        onClose();
+      }
     };
-  }, [imageUrl]); // Re-run effect if imageUrl changes
 
-  // Return null because this component doesn't render anything in the DOM directly
-  return null;
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
+  const handleClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return (
+    <div className="overlay" onClick={handleClick}>
+      <div className="modal">
+        <img src={imageUrl} alt="" />
+      </div>
+    </div>
+  );
 };

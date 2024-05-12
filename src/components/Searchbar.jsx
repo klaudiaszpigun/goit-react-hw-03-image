@@ -1,31 +1,28 @@
 import { useState } from 'react';
-import '../index.css';
 
 export const Searchbar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
-  const handleChange = event => {
-    setQuery(event.target.value);
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    onSubmit(query);
+  const handleSubmit = e => {
+    e.preventDefault();
+    onSubmit(query.trim());
     setQuery('');
   };
 
   return (
-    <header>
-      <form onSubmit={handleSubmit}>
-        <button type="submit">
-          <span>Search</span>
+    <header className="searchbar">
+      <form className="form" onSubmit={handleSubmit}>
+        <button type="submit" className="button">
+          <span className="button-label">Search</span>
         </button>
         <input
+          className="input"
           type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
           autoComplete="off"
           autoFocus
-          value={query}
-          onChange={handleChange}
+          placeholder="Search images and photos"
         />
       </form>
     </header>

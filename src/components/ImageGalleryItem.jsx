@@ -1,17 +1,7 @@
-import { useState } from 'react';
-import '../index.css';
-import { Modal } from './Modal';
-export const ImageGalleryItem = ({ image }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  const handleClick = () => {
-    setShowModal(true);
-  };
-
+export const ImageGalleryItem = ({ image, onClick }) => {
   return (
-    <li>
-      <img src={image.webformatURL} alt="" onClick={handleClick} />
-      {showModal ? <Modal imageUrl={image.largeImageUrl} /> : ''};
+    <li className="gallery-item" onClick={() => onClick(image.largeImageURL)}>
+      <img src={image.webformatURL} alt="" />
     </li>
   );
 };
