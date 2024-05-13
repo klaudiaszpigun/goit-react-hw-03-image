@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../index.css';
+
 export const Searchbar = ({ handleValue }) => {
   const [searchedValue, setSearchedValue] = useState('');
 
@@ -9,12 +11,13 @@ export const Searchbar = ({ handleValue }) => {
   };
 
   return (
-    <header>
-      <form onSubmit={handleSearchedValue}>
-        <button type="submit">
-          <span>Search</span>
+    <header className="header">
+      <form onSubmit={handleSearchedValue} className="form">
+        <button type="submit" className="button">
+          <span className="submit-span">Search</span>
         </button>
         <input
+          className="input"
           value={searchedValue}
           type="text"
           autoComplete="off"
