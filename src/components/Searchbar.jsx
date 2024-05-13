@@ -25,4 +25,4 @@ export const Searchbar = ({ handleValue }) => {
       </form>
     </header>
   );
-};
+}; //
